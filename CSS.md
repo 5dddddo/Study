@@ -106,7 +106,29 @@ javascript : 문서의 동작 (control)
     ​					width를 지정해야 함
 
 - padding : 내부 영역에 공백 설정
-- 
+
+  - padding : 상하 좌우 / 상 하 좌 우
+
+- background 
+
+  - background-color 
+  - background-image : url('파일경로');
+  - background-repeat :  image 여러 개 반복
+
+  - background-attachment : scroll(default) fixed local
+  - background-position : 배경 이미지 위치 설정
 
 
 
+### 링크 스타일
+
+- :link - 방문되지 않은 링크 스타일
+- :visited - 방문된 링크 스타일
+- :hover - 마우스가 위에 있을 때 링크 스타일
+- :active - 마우스로 클릭될 때 링크 스타일
+
+- 위치 순서 : link / visited - hover - active
+
+
+
+### Table
