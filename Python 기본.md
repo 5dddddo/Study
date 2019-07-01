@@ -128,7 +128,7 @@ my_text= "나는 사과 {0}개와 바나나 {1}개를 가지고 있어요".forma
 
 ```python
 sample_text = "cocacola"
-print(len(sample_text)); # 문자열 길이
+print(len(sample_text)); # 문자열 길이 내장 함수
 
 # 문자열이 몇 번 나오는지 count하는 함수
 print(sample_text.count("c")) 
