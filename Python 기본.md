@@ -26,6 +26,8 @@ c = None
 
 ## built-in data type ( 내장형 )
 
+: 계산할 때 실수형으로 처리
+
 ###  Numeric type( 숫자형 )
 
 ``` python
