@@ -147,3 +147,4 @@ print(a.upper()) # 대문자 변환
 print(a.lower()) # 소문자 변환
 print(a.strip()) # 문자열의 앞,뒤 공백 제거
 ```
+
