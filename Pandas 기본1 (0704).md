@@ -118,7 +118,7 @@ print(factory_a+factory_b)
 
 
 
-- Series를 dictionary 이용해 생성
+### Series를 dictionary 이용해 생성
 
 ``` python
 ##이전에는 series라는 자료구조를 만들때 python의
@@ -153,45 +153,3 @@ print("DataFrame의 인덱스 : {}".format(df.index))
 print("DataFrame의 컬럼 : {}".format(df.columns))
 print("DataFrame의 데이터 : {}".format(df.values))
 ```
-
-
-
-- DataFrame
-
-```python
-## CSV 파일을 이용해서 DataFrame 생성
-## 일반적으로 CSV 파일의 첫번째 행은 컬럼을 명시
-import numpy as np
-import pandas as pd
-
-df = pd.read_csv("./data/MovieLens/ratings.csv")
-#display(df)
-
-# 상위 5개
-display(df.head())
-
-# 하위 5개
-display(df.tail())
-
-## Database로부터 데이터를 얻어내서 DataFrame을 생성
-## mysql을 이용해서 처리해 보아요!
-## python에서 mysql을 사용할 수 있도록 도와주는
-## module을 설치
-import pymysql.cursors
-import numpy as np
-import pandas as pd
-
-## mysql을 다운로드 받아서 간단하게 설치-설정
-## 데이터베이스를 연결하기 위한 변수를 하나 생성
-conn = pymysql.connect(host="localhost",
-                      user="python",
-                      password="python",
-                      db="library",
-                      charset="utf8")
-sql = "select bisbn,btitle,bauthor,bprice from books"
-
-df = pd.read_sql(sql,con=conn)
-display(df)
-
-```
-
