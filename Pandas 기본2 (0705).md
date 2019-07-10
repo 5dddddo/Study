@@ -1,11 +1,14 @@
+
+
 # Pandas 기본2 (07/05)
 
-### 데이터 읽어서 DataFrame으로 생성
+## 데이터 읽어서 DataFrame으로 생성
 
 - #### Database에서 읽어오기
 
   - mysql 사용
   - anaconda prompt에서 conda install pymysql
+  - table 생성 후 jupyter에서 읽어오기
 
 ``` python
 # Database로부터 데이터를 얻어내서 DataFrame을 생성
@@ -79,18 +82,33 @@ file.close()
 
 df = pd.DataFrame(my_dict)
 print(df.index)
-# json 파일에서 가져온 index로 문자열 type
-# 따라서, index가 문자열로 정렬되어 1들이 2보다 앞에 나옴
+# json 파일에서 가져온 index도 문자열 type
+# 따라서, index가 사전순으로 정렬되어 1들이 2보다 앞에 나옴
 display(df)
 
 ```
 
 ![1562316164313](C:\Users\student\AppData\Roaming\Typora\typora-user-images\1562316164313.png)
 
-### Pandas의 DataFrame 제어
+
+
+
+
+## Pandas의 DataFrame
+
+### DataFrame 생성
+
+- index를 자유롭게 설정할 수 있음
+
+- DB의 table 형식과 비슷
+
+- display() : table 구조로 출력
+
+- describe() : 기본적인 분석함수 제공
+
+  ​					count, mean, std, ...
 
 ``` python
-## pandas의 dataframe의 제어
 import numpy as np
 import pandas as pd
 
@@ -103,65 +121,88 @@ data = {"이름": ["홍길동","강감찬","이순신","신사임당"],
 df = pd.DataFrame(data,
                  columns=["학과","이름","학년"],
                  index = ["one","two","three","four"])
-display(df)
-## dataframe은 기본적인 분석함수 제공
-display(df.describe());
 
+## dataframe은 기본적인 분석함수 제공
+display(df)
+display(df.describe());
+```
+
+![1562396814988](C:\Users\student\AppData\Roaming\Typora\typora-user-images\1562396814988.png)
+
+![1562396678258](C:\Users\student\AppData\Roaming\Typora\typora-user-images\1562396678258.png)
+
+
+
+### DataFrame의 제어 / 처리
+
+#### col 데이터 추출
+
+- DataFrame의 col 1개 추출
+  - col 1개는 Series type : numpy array view로 가져옴, 복사본 X
+
+    ex) type(df["이름"]))  -> pandas.core.series.Series
+
+    
+
+- DataFrame의 col 2개 추출
+  - col 2개는 DataFrame type
+
+  - index로 추출 X
+
+    ex) (df["이름","학년"]) => Error!
+
+  - **Fancy indexing** 이용 => 배열 리스트로 추출
+
+  ​										           indexing 하는 부분에 index 배열을 이용
+
+  ​		ex) df[["학과","이름"]]
+
+``` python
 import numpy as np
 import pandas as pd
 import warnings
 
-# warning을 출려하지 않기 위한 설정
-# warnings.filterwarnings(action="ignore") ## off
-warnings.filterwarnings(action="default") ## on
+# warning을 출력하지 않기 위한 설정
+# warnings.filterwarnings(action="ignore")  ## 출력 X
+  warnings.filterwarnings(action="default") ## 출력 O
+
+# Dataframe에서 특정 col만 추출
+year=df["학년"] 
+# df["학년"]은 [index,"학년"] 형식의 Series => view로 가져옴
+# view가 아닌 복사본을 이용하려면 copy()
+year[0] = 100
+
+# col 2개 이상 추출하려면
+# display(df["이름","학년"]) => Error
+
+# Fancy indexing 이용 => 배열 리스트로 추출
+# 인덱싱하는 부분에 인덱스 배열을 이용하는 indexing 방법
+display(df[["학과","이름"]])  
+```
 
 
-data = {"이름": ["홍길동","강감찬","이순신","신사임당"],
-        "학과": ["컴퓨터","경영","철학","미술"],
-        "학년":[1,3,2,4],
-        "학점":[3.1,2.9,4.5,3.9]
-       }
 
-df = pd.DataFrame(data,
-                 columns=["학과","이름","학년","학점"],
-                 index = ["one","two","three","four"])
-#display(df)
-## Dataframe에서 특정 col만 추출
-## col 1개만 들고오면 Series
-#display(df["이름"])
-year=df["학년"] # year => Series => view로 가져옴
-                # view가 아닌 복사본을 이용하려면 copy()
-year[0]= 100
-#display(year)
+#### col 데이터 수정
 
-## col 2개 이상 추출하려면
-# display(df["이름","학년"])  ## Error
-
-## Fancy indexing 이용 => 배열 리스트로 추출
-## 인덱싱하는 부분에 인덱스 배열을 이용하는 indexing 방법
-#display(df[["학과","이름"]])  ## dataframe이 추출돼요
-
-# 컬럽 값 수정 
+``` python
+# col 값 수정 
 df["학년"] = np.array([1,2,2,1])
 df["학년"] = 3
-
-
 df["나이"] = pd.Series([20,21,23,25])
-#display(df)
 
 # 위에서 인덱스를 one,...,four 로 지정해서
 # default index인 1,2,3,4로 안 들어감
 # 인덱스 지정해줘야함
 
-df["나이"] = pd.Series([20,21,23,25],index = ["one","two","three","four"])
-#display(df)
+df["나이"] = pd.Series([20,21,23,25],
+                     index = ["one","two","three","four"])
 
 df["장학금여부"]= df["학점"]>3.0
 display(df)
 
 # del df["학점"]; # 학점 컬럼 삭제, 실제 사용 X
 
-## 컬럼 삭제한ㄴ 일반적인 방법
+## 컬럼 삭제한 일반적인 방법
 # axis = 열방향인지 행방향인지
 # inplace = 원본에서 제거할지 여부
 #         = True : 원본 삭제시 return X 
@@ -246,7 +287,6 @@ display(df)
 # 사용하는 dataframe의 value 값은 [0,10) 범위의 난수형 정수
 # 균등 분포에서 추출해서 사용
 # 6행 4열짜리 dataframe 생성
-
 import numpy as np
 import pandas as pd
 
@@ -288,10 +328,6 @@ display(df.isnull())
 display(df.loc[df["E"].isnull(),:])
 
 ```
-
-
-
-
 
 # 이론
 

@@ -6,7 +6,7 @@
 
   - **Series** : numpy의 1차원 배열과 상당히 유사
 
-  ​			 동일한 데이터 타입의 복수 개의 요소로 구성
+  ​			 차이점 : 동일한 데이터 타입의 복수 개의 요소로 구성
 
   - **DataFrame** : table 형식으로 구성된 자료구조
 
@@ -121,9 +121,9 @@ print(factory_a+factory_b)
 ### Series를 dictionary 이용해 생성
 
 ``` python
-##이전에는 series라는 자료구조를 만들때 python의
-## list를 이용해서 만들었는데 이번에는
-## dictionary를 이용
+##이전에는 series라는 자료구조를 만들때
+## python의 list를 이용해서 만들었는데
+## 이번에는 dictionary를 이용
 
 my_dict = {"서울":3000,"부산":2000,"제주":1000}
 s = pd.Series(my_dict)
@@ -132,7 +132,7 @@ s.index.name = "지역"
 
 display(s)
 
-# pandas의 두번째 자류구조는 DataFrame을 살펴보아요
+# pandas의 두번째 자류구조는 DataFrame
 ## 거의 대부분의 경우 DataFrame을 이용해서 데이터 분석
 ## dictionary를 이용해서 생성
 
@@ -153,3 +153,5 @@ print("DataFrame의 인덱스 : {}".format(df.index))
 print("DataFrame의 컬럼 : {}".format(df.columns))
 print("DataFrame의 데이터 : {}".format(df.values))
 ```
+
+![1562399995226](C:\Users\student\AppData\Roaming\Typora\typora-user-images\1562399995226.png)
