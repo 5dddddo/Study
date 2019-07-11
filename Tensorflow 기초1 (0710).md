@@ -15,53 +15,39 @@ machine learning (기계 학습) => 데이터 분석의 또 다른 방법
 
 
 ## 머신러닝 분류
-
 #### Supervised Learning 
-
 - training set 이라고 불리는 **lable화 된 데이터**를 통해 학습 후 
 
   **예측 모델**을 생성 => 예측모델을 이용해 실제 데이터의 예측값 추출
 
-  - Linear regressing( 선형 회귀 ) : 
+- Linear Hypothesis : 2차원에서 Linear Hypothesis 를 정의하는 것은 training data set에 잘 맞는 linear한 선을 긋는 것으로 생각할 수 있음 ->  Linear Hypothesis을 수정해 나가면서 데이터에 가장 근접한 선이 되도록 직선의 기울기와 절편을 바꾸는 과정이 "**학습**" 
+  
 
-    추측한 결과값이 선형값 ( 값의 분포에 제한이 없음 )
+    - Linear regressing( 선형 회귀 ) 
 
-    ex) 시험 성적 : 0~100점
+      : 추측한 결과값이 선형값 ( 값의 분포에 제한이 없음 )
 
-    - Linear Hypothesis : 2차원에서 Linear Hypothesis 를 정의하는 것은 training data set에 잘 맞는 linear한 선을 긋는 것으로 생각할 수 있음 ->  Linear Hypothesis을 수정해 나가면서 데이터에 가장 근접한 선이 되도록 직선의 기울기와 절편을 바꾸는 과정이 "**학습**" 
-
-    
-    $$
-    Hypothesis :H(x) = Wx + b
-    $$
-    
-
-    - Cost(loss) function , 최소 제곱법을 이용해 W와 b를 찾는 방법
-
-      직선과 실제 데이터의 차이가 작으면 작을수록 해에 근접해짐
-
-      최소 제곱법 = (직선과 실제 데이터의 차이)^2
+       ex) 시험 성적 : 0~100점
 
       
 
-  - Logistic regression : 
+  - Logistic regression 
 
     추측한 결과값이 논리값 ( 0 / 1 )
 
-    ex) 시험 성적 : 합격 / 불합격
+    ex) 시험 성적 : 합격 / 불합격  
 
     
 
-  - Multinomial Classification : 
+  - Multinomial Classification 
 
-    추측한 결과값이 정해져 있는 몇 개의 boundary 중 1개
+    : 추측한 결과값이 정해져 있는 몇 개의 boundary 중 1개
 
     ex) 시험 성적 : A, B, C, D, F 학점
 
-    
+
 
 #### Unsupervised Learning
-
 - **lable화 되지 않은 데이터**를 통해 학습 후
 
   비슷한 데이터끼리 모아 **Clustering** 모델을 생성
@@ -73,30 +59,25 @@ machine learning (기계 학습) => 데이터 분석의 또 다른 방법
 
 
 ## Tensorflow 
-
 - google이 만든 machine library로 open source library
-
+  
 - 수학적 계산을 하기 위한 library
-
+  
 - data flow **graph**를 이용
-
+  
 - tensorflow를 이용해 그릴 수 있는 data flow graph는 
 
   **Node와 Edge로 구성된 방향성 있는 그래프**
-
 - **Node** : 데이터의 입출력과 수학적 연산 담당
-
-  **Edge** : 데이터를 Node로 실어 나르는 역할
-
-  **Tensor** : 동적 크기의 다차원 배열을 지칭
+- **Edge** : 데이터를 Node로 실어 나르는 역할
+- **Tensor** : 동적 크기의 다차원 배열을 지칭
 
 
 
 ### Tensorflow의 자료형
-
 #### 1. constant : 상수 tensor를 생성하는 node
-
 - decode() : byte -> str로 casting
+   global variable(W,b) 초기화  작업
 
 ``` python
 # constant() : 상수 Node 생성
@@ -133,6 +114,8 @@ print(sess.run(my_node).decode())
 - ##### 복수 개의 node를 실행하려면 배열 형태로 입력해야 함
 
   => 결과값도 배열 형태
+  
+  
 
 ``` python
 node1 = tf.constant(10, dtype = tf.float32)
@@ -167,6 +150,7 @@ print(sess.run([node1,node2,node3])) # [10.0, 20.0, 30.0]
 
 
 - **casting (변수, dtype = 바꾸려는 type)** : 변수의 type 바꾸는 함수
+  
 
 ``` python
 import tensorflow as tf
@@ -187,9 +171,10 @@ print(node2)
 
 - 입력을 받아들이는 저장공간
 
+  x = tf.placeholder(dtype = tf.float32)
+  y = tf.placeholder(dtype = tf.float32)
+
 - **실행 시 sess.run(변수, feed_dict = 값 ) 으로 반드시 값 주입해야 함**
-
-
 
 - 2개의 수를 입력으로 받아서 더하는 프로그램
 
@@ -230,8 +215,12 @@ x = [1,2,3]
 y = [1,2,3]  # label
 
 # 선형 회귀(linear regression)
+# 가장 큰 목표는 가설의 완성
+# 가설(hypothesis) = Wx+b
+# W와 b 
 # Weight & bias 정의
-
+# Variable () : 계속 다른 값을 받아들이는, 변하는 값을 
+# 받아들여 변수처럼 동작하는 node
 # (tf.random_normal([1]), name="weight"):
 # 정규 분포 내에서 난수 1차원 1개
 # name="weight" : tensorflow가 사용할 이름 지정 
@@ -240,16 +229,15 @@ b = tf.Variable(tf.random_normal([1]), name="bias")
 
 # Hypothesis(가설)
 # 우리의 최종 목적은 training data에 가장
-# 근접한 hyphthesis(직선)를 만드는 것(W와 b를 결정)
-# 잘 만들어진 가설은 W가 1에 가깝고 b가 0에 가까워야 함 (y = x)
-
+# 근접한 hypothesis를 만드는 것(W와 b를 결정)
+# 잘 만들어진 가설은 W가 1에 가깝고 b가 0에 가까워야 함
 H = W*x + b
 # W와 b, H 모두 Node
+
 
 # cost(loss) function :
 # 우리의 목적은 cost함수를 최소로 만드는 W,b 구하기
 # tf.reduce_mean() : 평균 구하는 함수
-# Hyphthesis와 데이터의 차이를 제곱 후 평균값 계산
 cost = tf.reduce_mean(tf.square(H-y))
 
 ## cost function minimize
@@ -260,6 +248,7 @@ cost = tf.reduce_mean(tf.square(H-y))
 optimizer= tf.train.GradientDescentOptimizer(learning_rate=0.01)
 train = optimizer.minimize(cost)
 
+
 ## 그래프 실행하기 위한 runner 생성
 sess = tf.Session()
 ## global variable을 반드시 초기화 해줘야 함 (W,b...)
@@ -268,7 +257,7 @@ sess.run(tf.global_variables_initializer())
 # 학습 진행
 for step in range(3000):
     _, w_val, b_val, cost_val = sess.run([train,W,b,cost])
-    if step % 300 == 0:
+    if step%300 == 0:
         print("{},{},{}".format(w_val,b_val,cost_val))
 
 [-0.00958644],[-0.51523536],8.985591888427734
@@ -280,6 +269,6 @@ for step in range(3000):
 [1.0003458],[-0.00078522],8.892008196426104e-08
 [1.0001684],[-0.0003826],2.1092347424200852e-08
 [1.000082],[-0.0001869],5.030217575807683e-09
-[1.00004],[-9.1983624e-05],1.2182314046427223e-09
+[1.00004],[-9.1983624e-05],1.2182314046427223e-09        
+        
 ```
-
