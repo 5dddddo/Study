@@ -33,7 +33,9 @@ machine learning (기계 학습) => 데이터 분석의 또 다른 방법
 
   - Logistic regression 
 
-    추측한 결과값이 논리값 ( 0 / 1 )
+    추측한 결과값이 0~1 사이의 확률값
+
+    0.5 이상이면 1로, 0.5 미만이면 0의 논리값으로 간주
 
     ex) 시험 성적 : 합격 / 불합격  
 
@@ -42,7 +44,7 @@ machine learning (기계 학습) => 데이터 분석의 또 다른 방법
   - Multinomial Classification 
 
     : 추측한 결과값이 정해져 있는 몇 개의 boundary 중 1개
-
+  
     ex) 시험 성적 : A, B, C, D, F 학점
 
 
