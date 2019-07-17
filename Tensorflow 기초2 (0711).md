@@ -90,7 +90,7 @@ $$
 
   ##### W가 1에 가깝고 b가 0에 가까워 지도록 W와 b를 결정
 
-  W와 b, H 모두 Node
+  W와 b, H 모두 Node 
 
   
 
@@ -119,7 +119,10 @@ $$
 
 9. prediction 테스트
 
-   
+
+
+
+### Linear regression example - Y = X * 3 + 1 예제
 
 ``` python
 import tensorflow as tf
@@ -193,6 +196,10 @@ print(sess.run(H,feed_dict={x:[300]}))
 [900.9902]
 ```
 
+
+
+### Linear regression example - Ozone 예제
+
 ``` python
 import tensorflow as tf
 import numpy as np
@@ -202,7 +209,7 @@ import warnings
 import matplotlib.pyplot as plt
 
 warnings.filterwarnings(action = "ignore")
-## 파일 불러오기 => pandas 이용하는 것이 가장 효율적
+# 파일 불러오기 => pandas 이용하는 것이 가장 효율적
 
 df = pd.read_csv("./data/ozone/ozone.csv",sep=",")
 display(df)
@@ -214,16 +221,15 @@ display(df)
 # 필요한 col 2개만 일단 추출 => fancy indexing
 
 df2 = df[["Ozone","Temp"]]
-# 결치값 제거
+# 결측값 제거
 # dropna(how = "all") : Ozone과 Temp 행이 모두 NaN인 행 지우기
 # dropna(how = "any") : Ozone과 Temp 행 중 하나라도 NaN이면 행 지우기
+# inplace = True : 원본 파일을 직접 수정
+# inplace = False : 원본 파일을 수정 X 
 
 df3= df2.dropna(how = "any", inplace = False )
-print(df2.shape)
-print(df3.shape)
-
-# (153, 2)
-# (116, 2)
+print(df2.shape) # (153, 2)
+print(df3.shape) # (116, 2)
 
 # 이렇게 준비한 데이터가 linear한 데이터인지 확인
 # scatter : 데이터의 분포, 산전도 그려줌
@@ -232,6 +238,14 @@ plt.show()
 ```
 
 ![1562839006127](C:\Users\student\AppData\Roaming\Typora\typora-user-images\1562839006127.png)
+
+
+
+#### 문제점 : cost 값이 발산함 => 해 X
+
+- x_data(Ozone)와 y_data(Temp)의 값의 차가 커서 Error
+
+- cost가 0으로 수렴해야 함
 
 ```python
 # placeholder
@@ -256,7 +270,7 @@ cost = tf.reduce_mean(tf.square(H-y))
 optimizer = tf.train.GradientDescentOptimizer(learning_rate =0.1)
 train = optimizer.minimize(cost)
 
-# 그래프 시
+# Session 생성 & 초기화
 sess = tf.Session()
 sess.run(tf.global_variables_initializer())
 
@@ -267,14 +281,6 @@ for step in range(3000):
     if step % 300 == 0:
         print("cost : {}".format(cost_val))
         
-## 문제
-# cost 값이 발산함 => 해 X
-# x_data(Ozone)와 y_data(Temp)의 값의 차가 커서 error
-# cost가 0으로 가까워져야 함!
-
-## 해결
-# 정규화를 통해 x_data와 y_data의 차이값을 0~1 사이의 값으로 변환
-
 '''
 cost : 1414.1903076171875
 cost : nan
@@ -289,62 +295,34 @@ cost : nan
 '''
 ```
 
-- 정규화
-
-  데이터 정제 : shrink
-
-  1. normalization : (요소값 - 최솟값) / (최댓값 - 최솟값)
-
-  (요소값 - 최솟값) < (최댓값 - 최솟값)
-
-  0 < (요소값 - 최솟값) / (최댓값 - 최솟값) < 1
-
-  2. standardization : (요소값 - 평균) / 표준편차
 
 
+#### 해결법 : 정규화 (Normalization)
+
+- 정규화를 통해 x_data와 y_data의 차이값을 0~1 사이의 값으로 변환
+
+1. normalization : (요소값 - 최솟값) / (최댓값 - 최솟값)
+
+   ​							(요소값 - 최솟값) < (최댓값 - 최솟값)
+
+   ​							따라서, 0 < (요소값 - 최솟값) / (최댓값 - 최솟값) < 1
+
+2. standardization : (요소값 - 평균) / 표준편차
 
 ``` python
-# placeholder
-x = tf.placeholder(dtype = tf.float32)
-y = tf.placeholder(dtype = tf.float32)
-
+...
 # training data set
 ## 데이터 정제 : 정규화
 x_data = (df3["Temp"] -  df3["Temp"].min())/ (df3["Temp"].max()-df3["Temp"].min())
 y_data = (df3["Ozone"] -  df3["Ozone"].min())/ (df3["Ozone"].max()-df3["Ozone"].min())
+...
+```
 
-# Weight & bias
-W = tf.Variable(tf.random_normal([1]),name = "weight")
-b = tf.Variable(tf.random_normal([1]),name = "bias")
 
-# Hypothesis
-H = W*x +b
 
-# cost function
-cost = tf.reduce_mean(tf.square(H-y))
+### Linear regression example -  2차원 data
 
-# train node 생성
-optimizer = tf.train.GradientDescentOptimizer(learning_rate =0.1)
-train = optimizer.minimize(cost)
-
-# 그래프 실행 & 초기화
-sess = tf.Session()
-sess.run(tf.global_variables_initializer())
-
-# 학습 (train)
-for step in range(3000):
-    _, cost_val = sess.run([train, cost],
-                          feed_dict = {x:x_data,y:y_data})
-    if step % 300 == 0:
-        print("cost : {}".format(cost_val))
-        
-## 문제
-# cost 값이 발산함 => 해 X
-# x_data(Ozone)와 y_data(Temp)의 값의 차가 커서 error
-# cost가 0으로 가까워져야 함!
-
-## 해결
-# 정규화를 통해 x_data와 y_data의 차이값을 0~1 사이의 값으로 변환
+``` python
 import tensorflow as tf
 # training data set
 # x_data , y_data의 속성
@@ -368,7 +346,7 @@ W = tf.Variable(tf.random_normal([3,1]),name = "weight")
 b = tf.Variable(tf.random_normal([1]),name = "bias")
 
 # Hypothesis
-# H = XW + b => 행렬 곱
+# 데이터가 2차원 배열이기 때문에 tf.matmul 함수로 행렬 곱 수행
 H = tf.matmul(X,W)+b
 
 # cost function
@@ -403,9 +381,9 @@ import tensorflow as tf
 import numpy as np
 import pandas as pd
 import warnings
-# pytho
-# pip install sklearn
-# 0~1 사이의 값으로 scaling해주는 library
+
+# python
+# pip install sklearn : 0~1 사이의 값으로 scaling해주는 library
 from sklearn.preprocessing import MinMaxScaler
 warnings.filterwarnings(action="ignore")
 
