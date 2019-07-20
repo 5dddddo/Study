@@ -202,7 +202,22 @@ print(result)
 
 
 
-###  선형 회귀 ( linear regression )
+## Learning rate 
+
+- 너무 작으면 underfitting : training의 정확도가 낮고
+
+  ​									   	   test의 정확도도 낮음
+
+- 너무 크면 overfitting : training의 정확도는 높고
+
+  ​									   test의 정확도는 낮음
+  - 해결방안  : training data 개수 늘림 
+
+    ​			 	  feature 개수 줄임
+
+    ​				   정규화를 통해 W 값 조절														  							   
+
+##  Linear regression 
 
 -  가장 큰 목표는 가설의 완성
 
@@ -274,3 +289,10 @@ for step in range(3000):
 [1.00004],[-9.1983624e-05],1.2182314046427223e-09        
         
 ```
+
+
+
+``` python
+
+```
+

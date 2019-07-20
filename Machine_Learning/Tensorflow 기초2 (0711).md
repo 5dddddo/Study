@@ -1,6 +1,6 @@
 # Tensorflow 기초1 (07/10)
 
-##  Gradient Descent (경사하강법) 
+## Gradient Descent (경사하강법) 
 
 - 주위에서 경사가 가장 급한 곳(미분해서 기울기가 최대)으로 이동해서
 
@@ -18,7 +18,9 @@
 
   learning_rate 크면 많이 움직임
 
-- **가중치 Weight** : 기울기
+  
+
+- **가중치 Weight : 기울기**
 
 $$
 W = W - \alpha \frac{d}{dW} cost(W)\\
@@ -30,13 +32,57 @@ $$
 
 [^출처]: https://www.oreilly.com/library/view/learn-arcore-/9781788830409/e24a657a-a5c6-4ff2-b9ea-9418a7a5d24c.xhtml
 
+
+
 - **Cost function , 손실 함수** 
 
   : 손실함수의 결과값(오차)을 가장 작게 만드는 것이 목표
+  
+  
+  
+  1. Single linear regression
 
 $$
-cost(W,b) = \frac{1}{n} \sum (H(x_1^i, x_2^i,x_3^i) - y^i)^2)
+cost(W,b) = \frac{1}{n} \sum (H(x^i) - y^i)^2
 $$
+
+​		  
+
+​		  2. Multiple linear regression
+$$
+cost(W,b) = \frac{1}{n} \sum (H(x_1^i, x_2^i,x_3^i) - y^i)^2
+$$
+
+
+
+=> Tensorflow는 W, cost 수식과 같이 복잡한 계산을 대신 해주는 library
+
+ 
+
+``` python
+## cost function 그래프 그리기
+import numpy as np
+import matplotlib
+import matplotlib.pyplot as plt
+
+x = np.arange(1,8,1)
+y = np.arange(1,8,1)
+W = np.arange(-2,5,1)
+
+cost = list()
+for w in W:
+    tmp_sum = 0
+    for i in range(len(x)):
+        tmp_sum += np.square(w*x[i] - y[i])
+    cost.append(tmp_sum/len(x))
+    
+plt.plot(W,cost)
+plt.xlabel("W")
+plt.ylabel("cost(W)")
+plt.show()
+```
+
+![1563603238899](C:\Users\student\AppData\Roaming\Typora\typora-user-images\1563603238899.png)
 
 
 
@@ -46,7 +92,9 @@ $$
 
   global minima ( 진짜 해 ) 를 못 구하는 문제 발생할 수 있음
 
-- 따라서, cost function이 convex function 형태일 때
+  
+
+- 따라서, cost function이 convex function 형태를 가지는지 확인 후
 
   gradient descent algo 적용
 
@@ -59,7 +107,14 @@ $$
 : 입력 데이터 x와 label화 된 y의 선형 상관관계를 모델링하는 회귀 분석 기법
 
 - 하나의 입력 데이터를 가지면 single linear regression
-- 여러 개의 입력 데이터를 가지면 multi linear regression
+  $$
+  H(x) = XW + b
+  $$
+  
+
+- 여러 개의 입력 데이터를 가지면 
+
+  ​												  multiple(multi-Variable) linear regression
 
 - 입력 data set X가 여러 개이이기 때문에 W의 값도 여러 개 
 
@@ -309,6 +364,10 @@ cost : nan
 
 2. standardization : (요소값 - 평균) / 표준편차
 
+
+
+- 사용자 정의 정규화
+
 ``` python
 ...
 # training data set
@@ -320,7 +379,22 @@ y_data = (df3["Ozone"] -  df3["Ozone"].min())/ (df3["Ozone"].max()-df3["Ozone"].
 
 
 
-### Linear regression example -  2차원 data
+- MinMaxScaler를 이용한 정규화
+
+``` python
+# pip install sklearn
+# 0~1 사이의 값으로 scaling해주는 library
+from sklearn.preprocessing import MinMaxScaler
+# training data set : 데이터 정제
+# values : 2차원 numpy array로 추출
+#  MinMaxScaler().fit_transform() : 0~1 사이의 값으로 scaling
+x_data = MinMaxScaler().fit_transform(df_x.values)
+y_data = MinMaxScaler().fit_transform(df_y.values.reshape(-1,1))
+```
+
+
+
+### Multiple Linear regression example
 
 ``` python
 import tensorflow as tf
