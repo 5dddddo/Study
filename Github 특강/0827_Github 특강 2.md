@@ -196,9 +196,9 @@
 
 
 
+- ctrl + l : command clear
 
-
-ctrl + l : 콘솔 clear  여러줄 삭제 / ctrl + u 한줄 삭제
+  ctrl + u :  한 줄 삭제
 
 
 
