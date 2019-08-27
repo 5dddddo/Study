@@ -6,7 +6,7 @@
   1. <https://code.visualstudio.com/Download> - [System Installer 64bit] Download
   2. 추가 작업 선택
 
-  ![1566890322138](https://user-images.githubusercontent.com/50972986/63769800-a7981d80-c90e-11e9-92a1-b8ff5bda2e88.png)
+    ![1566890322138](https://user-images.githubusercontent.com/50972986/63769800-a7981d80-c90e-11e9-92a1-b8ff5bda2e88.png)
 
 <br>
 
@@ -62,7 +62,7 @@
 
      - 현재 hello.py는 추적이 불가능
 
-    ![1566892762767](https://user-images.githubusercontent.com/50972986/63769776-93ecb700-c90e-11e9-8766-e5d8d9f51f9a.png)
+      ![1566892762767](https://user-images.githubusercontent.com/50972986/63769776-93ecb700-c90e-11e9-8766-e5d8d9f51f9a.png)
 
   <br>
 
@@ -70,7 +70,7 @@
 
      `$ git add hello.py`
 
-    ![1566892938631](https://user-images.githubusercontent.com/50972986/63769594-2d679900-c90e-11e9-9440-94220b9d098a.png)
+     ![1566892938631](https://user-images.githubusercontent.com/50972986/63769594-2d679900-c90e-11e9-9440-94220b9d098a.png)
 
   <br>
 
@@ -78,7 +78,7 @@
 
      `$ git commit -m "커밋 내용"`
 
-     ![1566893013120](https://user-images.githubusercontent.com/50972986/63769644-4bcd9480-c90e-11e9-8ba4-9973288161b1.png)
+      ![1566893013120](https://user-images.githubusercontent.com/50972986/63769644-4bcd9480-c90e-11e9-8ba4-9973288161b1.png)
 
   <br>
 
@@ -86,7 +86,7 @@
 
   1. [New repository] 클릭
 
-    ![1566893155377](https://user-images.githubusercontent.com/50972986/63769648-4d975800-c90e-11e9-91b7-0ea2c313ffde.png)
+     ![1566893155377](https://user-images.githubusercontent.com/50972986/63769648-4d975800-c90e-11e9-91b7-0ea2c313ffde.png)
 
   <br>
 
@@ -94,13 +94,13 @@
 
   <br>
 
-   ![1566893220127](https://user-images.githubusercontent.com/50972986/63770181-8b48b080-c90f-11e9-90f0-d590a7b12bd2.png)
+     ![1566893220127](https://user-images.githubusercontent.com/50972986/63770181-8b48b080-c90f-11e9-90f0-d590a7b12bd2.png)
 
   <br>
 
   3. Repository가 생성되면 뜨는 화면
 
-   ![1566893405746](https://user-images.githubusercontent.com/50972986/63770258-b8955e80-c90f-11e9-8e2d-683dbe560a3e.png)
+     ![1566893405746](https://user-images.githubusercontent.com/50972986/63770258-b8955e80-c90f-11e9-8e2d-683dbe560a3e.png)
 
   4. Git bash에서 새로 만든 repository를 origin이란 이름을 가진 원격 저장소로 추가하기
 
@@ -112,7 +112,7 @@
 
      `$ git push -u origin master`
 
-   ![1566893811441](https://user-images.githubusercontent.com/50972986/63770425-19249b80-c910-11e9-857d-9afc746ec3d4.png)
+     ![1566893811441](https://user-images.githubusercontent.com/50972986/63770425-19249b80-c910-11e9-857d-9afc746ec3d4.png)
 
 <br>
 
@@ -122,7 +122,7 @@
 
   `$ git log`
 
-  ![1566893970191](https://user-images.githubusercontent.com/50972986/63770428-1c1f8c00-c910-11e9-97a2-d2f2140b8900.png)
+   ![1566893970191](https://user-images.githubusercontent.com/50972986/63770428-1c1f8c00-c910-11e9-97a2-d2f2140b8900.png)
 
   <br>
 
@@ -141,7 +141,7 @@
 
   `$ git checkout 과거커밋key값5자리입력 `
 
-  ![1566894287273](https://user-images.githubusercontent.com/50972986/63770439-22156d00-c910-11e9-9dcc-bb60dd221089.png)
+   ![1566894287273](https://user-images.githubusercontent.com/50972986/63770439-22156d00-c910-11e9-9dcc-bb60dd221089.png)
 
   - 하늘색 글자 ((f7481e4... )) 를 보면 현재 head의 위치를 알 수 있음
   - Head가 이동함
