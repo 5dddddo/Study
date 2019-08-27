@@ -164,7 +164,7 @@
 
 - 문제
 
-![1566906533926](https://user-images.githubusercontent.com/50972986/63770445-2772b780-c910-11e9-910a-e773e3a204a3.png)
+  ![1566906533926](https://user-images.githubusercontent.com/50972986/63770445-2772b780-c910-11e9-910a-e773e3a204a3.png)
 
 - 해결 방법
 

@@ -121,6 +121,7 @@
   `$ git branch`
 
   ![1566887208677](https://user-images.githubusercontent.com/50972986/63770932-327a1780-c911-11e9-8a53-328e5a760f3d.png)
+  
   - 현재 master branch에 위치
 
 <br>
@@ -159,8 +160,8 @@
   `$ git checkout master`
 
   - master를  항상  중심으로 생각하고 다른 Branch를 병합
-
-![1566888395053](https://user-images.githubusercontent.com/50972986/63771065-66edd380-c911-11e9-8317-9521a1ff9a5d.png)
+  
+    ![1566888395053](https://user-images.githubusercontent.com/50972986/63771065-66edd380-c911-11e9-8317-9521a1ff9a5d.png)
 
 <br>
 
@@ -177,19 +178,19 @@
 
 - Accept Both Changes 클릭 : 둘 다 살리기
 
-![1566888493334](https://user-images.githubusercontent.com/50972986/63771085-70773b80-c911-11e9-8020-a494ddec1eb2.png)
+  ![1566888493334](https://user-images.githubusercontent.com/50972986/63771085-70773b80-c911-11e9-8020-a494ddec1eb2.png)
 
 <br>
 
 - merge한 결과 
 
-![1566888629094](https://user-images.githubusercontent.com/50972986/63771098-78cf7680-c911-11e9-82e5-3efb3d3c8e98.png)
+  ![1566888629094](https://user-images.githubusercontent.com/50972986/63771098-78cf7680-c911-11e9-82e5-3efb3d3c8e98.png)
 
 <br>
 
 - 두 branch를 merge를 하면 log 기록도 합쳐지는 것을 볼 수 있음
 
-![1566888650649](https://user-images.githubusercontent.com/50972986/63771121-8127b180-c911-11e9-9115-7e44844bd6f9.png)
+  ![1566888650649](https://user-images.githubusercontent.com/50972986/63771121-8127b180-c911-11e9-9115-7e44844bd6f9.png)
 
 ![1566888726940](https://user-images.githubusercontent.com/50972986/63771154-8dac0a00-c911-11e9-920c-5abd14d885d3.png)
 
