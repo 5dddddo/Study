@@ -168,7 +168,7 @@
 
 - 해결 방법
 
-  ![1566906643234](https://user-images.githubusercontent.com/50972986/63770449-28a3e480-c910-11e9-884c-4ae12cf3c9ae.png)
+ ![1566906643234](https://user-images.githubusercontent.com/50972986/63770449-28a3e480-c910-11e9-884c-4ae12cf3c9ae.png)
 
 ------
 
