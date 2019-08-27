@@ -6,7 +6,7 @@
   1. <https://code.visualstudio.com/Download> - [System Installer 64bit] Download
   2. 추가 작업 선택
 
-![1566890322138](https://user-images.githubusercontent.com/50972986/63769800-a7981d80-c90e-11e9-92a1-b8ff5bda2e88.png)
+  ![1566890322138](https://user-images.githubusercontent.com/50972986/63769800-a7981d80-c90e-11e9-92a1-b8ff5bda2e88.png)
 
 <br>
 
@@ -62,7 +62,7 @@
 
      - 현재 hello.py는 추적이 불가능
 
-  ![1566892762767](https://user-images.githubusercontent.com/50972986/63769776-93ecb700-c90e-11e9-8766-e5d8d9f51f9a.png)
+    ![1566892762767](https://user-images.githubusercontent.com/50972986/63769776-93ecb700-c90e-11e9-8766-e5d8d9f51f9a.png)
 
   <br>
 
@@ -70,7 +70,7 @@
 
      `$ git add hello.py`
 
-  ![1566892938631](https://user-images.githubusercontent.com/50972986/63769594-2d679900-c90e-11e9-9440-94220b9d098a.png)
+    ![1566892938631](https://user-images.githubusercontent.com/50972986/63769594-2d679900-c90e-11e9-9440-94220b9d098a.png)
 
   <br>
 
@@ -86,7 +86,7 @@
 
   1. [New repository] 클릭
 
-  ![1566893155377](https://user-images.githubusercontent.com/50972986/63769648-4d975800-c90e-11e9-91b7-0ea2c313ffde.png)
+    ![1566893155377](https://user-images.githubusercontent.com/50972986/63769648-4d975800-c90e-11e9-91b7-0ea2c313ffde.png)
 
   <br>
 
@@ -94,13 +94,13 @@
 
   <br>
 
-  ![1566893220127](https://user-images.githubusercontent.com/50972986/63770181-8b48b080-c90f-11e9-90f0-d590a7b12bd2.png)
+   ![1566893220127](https://user-images.githubusercontent.com/50972986/63770181-8b48b080-c90f-11e9-90f0-d590a7b12bd2.png)
 
   <br>
 
   3. Repository가 생성되면 뜨는 화면
 
-  ![1566893405746](https://user-images.githubusercontent.com/50972986/63770258-b8955e80-c90f-11e9-8e2d-683dbe560a3e.png)
+   ![1566893405746](https://user-images.githubusercontent.com/50972986/63770258-b8955e80-c90f-11e9-8e2d-683dbe560a3e.png)
 
   4. Git bash에서 새로 만든 repository를 origin이란 이름을 가진 원격 저장소로 추가하기
 
@@ -112,7 +112,7 @@
 
      `$ git push -u origin master`
 
-  ![1566893811441](https://user-images.githubusercontent.com/50972986/63770425-19249b80-c910-11e9-857d-9afc746ec3d4.png)
+   ![1566893811441](https://user-images.githubusercontent.com/50972986/63770425-19249b80-c910-11e9-857d-9afc746ec3d4.png)
 
 <br>
 
@@ -164,7 +164,7 @@
 
 - 문제
 
-![1566906533926](https://user-images.githubusercontent.com/50972986/63770445-2772b780-c910-11e9-910a-e773e3a204a3.png)
+  ![1566906533926](https://user-images.githubusercontent.com/50972986/63770445-2772b780-c910-11e9-910a-e773e3a204a3.png)
 
 - 해결 방법
 
