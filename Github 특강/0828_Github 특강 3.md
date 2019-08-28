@@ -2,6 +2,8 @@
 
 MSA ( Micro Service Architecture ) <-> Monolithic
 
+![1566988201309](C:\Users\student\AppData\Roaming\Typora\typora-user-images\1566988201309.png)
+
 python 설치
 
 ![1566956479133](C:\Users\student\AppData\Roaming\Typora\typora-user-images\1566956479133.png)
@@ -111,6 +113,7 @@ commit msg : 명령형으로 쓰자
     - v1
 
   ![1566969354791](C:\Users\student\AppData\Roaming\Typora\typora-user-images\1566969354791.png)
+  
   - ​	v2
 
 ![1566969368606](C:\Users\student\AppData\Roaming\Typora\typora-user-images\1566969368606.png)
