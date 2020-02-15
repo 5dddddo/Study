@@ -60,7 +60,14 @@
 
     
 
+13. DB 검색
+    `python manage.py inspectdb`
 
-
-
-
+14. cctvmodel 
+     create table cctvmodel(
+     cctvid varchar(15),
+     cctvname varchar(30),
+     xcoord varchar(20),
+     ycoord varchar(20),
+     primary key(cctvid)
+ );
