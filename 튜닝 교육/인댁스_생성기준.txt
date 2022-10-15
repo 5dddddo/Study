@@ -1,0 +1,41 @@
+
+   인덱스 생성 기준: 
+    1)  해당  table WHERE 조건문장 검사 
+             access경로 조사표 작성
+              deptno =   5회
+              deptno  =  , sal  >   3회 
+             형태로 정리
+   2)  조건절에 같이 나오는 컬럼은 결합 인덱스 형태로 생성 
+           결합인덱스 생성시 순서
+               a.   where 절 나오는 횟수비교 
+               b.  = 조건 횟수 비교
+               C.  선택도 좋은컬럼 (컬럼값종류가 많은경우 선택도가 좋음) 
+
+ << 인덱스 생성후 관리 필요함.>>
+ 
+ 1.  중복 인덱스 삭제 :
+    i1>   deptno
+    i2>   deptno + job
+    i3>   deptno +job+sal 
+    i4>    job+deptno :  where job ='A'   job 조건만 사용하고 있는 
+                                 SQL문deptno조건 추가여부 확인
+                              AND  deptno in ( select  deptno from dept)  
+---> i1, i2, i4(where절수정후)-->삭제가능
+
+ 2.  사용되지 않는 인덱스 삭제
+   - 실행계획에 해당 인덱스이름 나오는지 확인 필요함. 
+   - 인덱스 사용여부 모니터링설정가능
+            alter index 인덱스명 monitoring usage; 
+              v$object_usage에 used컬럼 (YES/NO ) 
+
+   인덱스 생성시(  분포도(컬럼값 종류 ) 좋다 (컬럼값종류많은경우) 
+                                                      나쁘다              적은
+                       선택도 (결과에 나오는 건수비율) :  
+                                  결과ROW수/전체ROW수  : 높은값(나쁘다) 
+                                                                        낮은값 (좋다)
+                                   =조건인경우 선택도:  1/컬럼값종류  
+
+    분포도 나쁜컬럼 인덱스 생성후보군에서 제외함 -->BITMAP인덱스
+    함수/계산식적용한 컬럼 인덱스 사용못함:  -> function -BASEd
+         특수형태 인덱스구성가능. 
+   

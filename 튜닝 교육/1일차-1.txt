@@ -1,0 +1,12 @@
+ c:\sqlt  폴더 만들어서  파일 다운로드하기 
+
+ 1. 윈도우 +r   cmd 입력 
+   sqlplus
+      /as sysdba
+      sys/설치시지정한패스워드 as sysdba
+SQL> start c:\sqlt\sqlt.sql
+
+ 2.  
+ 프로그램/oracle 11g -> RUN SQL command  line
+  SQL> conn sys/설치시패스워드  as sysdba
+  SQL> start c:\sqlt\sqlt.sql

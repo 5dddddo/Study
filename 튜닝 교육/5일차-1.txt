@@ -1,0 +1,16 @@
+튜닝전1 >>
+conn tuning/tuning
+exec clean_index;
+alter session set statistics_level=all;
+
+CREATE INDEX customers_idx ON customers(city);
+CREATE INDEX orders_idx ON orders(custno);
+-- 인덱스 추가생성없이  SQL 성능개선 수행해보기 
+SELECT DISTINCT   c.custno, substr(c.cname, 1, 5), c.city, c.grade
+FROM  customers c , orders o
+WHERE o.custno = c.custno
+AND o.paytype = '신용카드'
+ AND c.city = '서울' ; 
+
+@c:\sqlt\xplan
+

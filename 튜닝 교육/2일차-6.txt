@@ -1,0 +1,8 @@
+
+   select  ename, sal, deptno
+   from emp 
+  where   deptno  =10  and job like 'A%' AND   mgr =7788 ; 
+  인덱스구성>  deptno + sal+ job   인덱스 
+   deptno  =10  (ACCESS조건: 인덱스 스캔량 결정)
+   job like 'A%'  ( 인덱스에서  index FILTER하는 조건) 
+  mgr =7788  (   TABLE자료 찾아가서 조건검사   table filter조건) 

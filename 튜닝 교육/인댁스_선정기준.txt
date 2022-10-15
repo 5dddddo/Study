@@ -1,0 +1,26 @@
+ 
+
+    select   *   from BIGemp
+    where  deptno = 10   and sal  > 7000
+             and  hiredate > to_date('2001-01-01','yyyy-mm-dd') ; 
+1)  BIGEMP: 2천만건          
+2) 현재  BIGEMP인덱스 정보 
+         <i1> deptno :deptno = 10 결과 ROW수:5000건
+         <i2>  job + sal : AND JOB in (select job from job_tbl ) 
+                                  ---> job+sal 인덱스사용가능하도록
+                                           job조건 만들어주기도함. 
+                                   단> job종류가 작은경우에만. 
+         <i3>  hiredate : hiredate >
+                              to_date('2001-01-01','yyyy-mm-dd') ROW수
+                              ---> 2만명
+CBO :   SQL문 수행시 어느 인덱스 사용할지 결정할때
+             판단 자료.
+           analyze 명령어로 수행된 자료 이용
+              table건수, 컬럼값종류, .. 이용해  선택도 계산
+             인덱스 :blevel, Clustering Factor값 확인해서 
+                        어느 인덱스가 효과적인지 검토함. 
+
+    
+
+
+

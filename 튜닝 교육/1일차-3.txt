@@ -1,0 +1,73 @@
+1. 
+1) explain plan for  SQL문; 
+ --->  plan_table 에 정보저장
+2)  select * from plan_table;
+      select * from table(dbms_xplan.display)  ; 
+실습>> 
+explain plan for select ename, sal from emp ; 
+select  * from table(dbms_xplan.display)  ;  
+
+2.  sqlplus auto trace 설정하기
+ 1) set autot on  
+ 2)  SQL문
+     화면에 정보 표시됨. 
+    a.  SQL문 결과ROW
+    b. execution plan
+    c.   실행시 사용한 memory/IO/network전송량등 작업량통계제공.
+실습>> 
+  SET autot on 
+  select ename,sal from emp where deptno =20 ; 
+ SET autot  trace 
+   select ename,sal from emp where deptno =20 ;
+  set autot on exp
+  select ename,sal from emp where deptno =20 ;
+  set autot trace exp
+   select ename,sal from emp where deptno =20 ;
+   SET autot off
+3.  서버  trace 파일 생성해서 분석하는 방법
+1) 
+  alter session set sql_trace=true ;
+   SQL문 사용
+   alter session set sql_trace=false; 
+
+2)서버 DISK공간에 ~~~.trc 파일 형태로 생성됨. 
+    해당 파일 직접 열어서 내용확인도 가능하지만 해석이 힘듦.
+    tkprof 프로그램이용해서  보기좋은 형태로 만들어서 결과 확인함. 
+     tkprof   ~~~.trc  output파일명  
+4 . SQL 수행시 작업량 정보를   shared pool에 저장된 
+     SQL 실행코드옆에 작업량/시간정보저장 . 
+1) alter session set statistics_level=all ; 
+2)  SQL문수행
+3)  select * 
+   from
+ table( dbms_xplan.display_cursor(null,null,'allstats last -rows')) ;
+
+<<실습>>
+--trace 파일 생성해서 확인해보기
+ SQL> set autot off
+SQL>  select * from v$diag_info where name like 'Default%'; 
+SQL> alter session set sql_trace=true;
+         select ename, sal flrom emp where deptno=10 ; 
+        select ename, sal from emp  order by sal desc; 
+        alter session set sql_trace=false; 
+SQL> exit
+
+ notepad    ~~~~.trc 
+C:\ORACLEXE\APP\ORACLE\diag\rdbms\xe\xe\trace\xe_ora_10896.trc
+tkprof  ~~~.trc   a1.txt 
+ notepad a1.txt
+
+  sqlplus scott/tiger
+ SQL> alter session set statistics_level=all ; 
+ SQL>  select ename, sal from emp where deptno=10 ; 
+ SQL> select * from 
+    table(dbms_xplan.display_cursor(null,null,'allstats last -rows')); 
+
+
+
+
+
+
+ 
+
+

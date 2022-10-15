@@ -1,0 +1,74 @@
+ conn tuning/tuning
+exec clean_index;
+ alter session set statistics_level=all; 
+SELECT /*+ USE_NL (c o d p) */ c.custno,SUBSTR(c.cname,1,5) , o.orderdate, d.qty,SUBSTR( p.pname,1,5)					
+FROM customers c, orders o, orderdetails d, products p							
+WHERE c.custno = o.custno							
+AND o.orderno = d.orderno							
+AND d.prodno = p.prodno							
+AND c.city = '서울'							
+AND o.paytype = '계좌이체'							
+AND d.qty <= 5							
+AND p.color = 'ORANGE';							
+
+@c:\sqlt\xplan
+
+1> 각 테이블 조건만족하는 건수 확인
+SELECT COUNT(*) FROM customers WHERE city = '서울';					
+SELECT COUNT(*) FROM orders WHERE paytype = '계좌이체';					
+SELECT COUNT(*) FROM orderdetails WHERE qty <= 5;					
+SELECT COUNT(*) FROM products WHERE color = 'ORANGE';
+
+
+
+
+
+ ---튜닝1>> P테이블먼저 읽도록 ..결정
+   leading( p d o c)  
+ start c:\sql\idx
+       --> orders, orderdetails, products, customers     
+     생성된 인덱스 정보 확인하기 
+
+** 
+exec clean_index; 
+ create index d_prodno_idx on orderdetails( prodno, qty) ; 
+ create index p_color_idx on products( color) ; 
+ create index o_pay_idx on orders ( orderno, paytype) ;
+ create index c_city_idx on customers( custno, city) ; 
+
+SELECT 
+/*+ USE_NL (c o d p) leading( p d o c)  index ( o o_pay_idx)  index(c c_city_idx) */
+ c.custno,SUBSTR(c.cname,1,5) , o.orderdate, d.qty,SUBSTR( p.pname,1,5)					
+FROM customers c, orders o, orderdetails d, products p							
+WHERE c.custno = o.custno							
+AND o.orderno = d.orderno							
+AND d.prodno = p.prodno							
+AND c.city = '서울'							
+AND o.paytype = '계좌이체'							
+AND d.qty <= 5							
+AND p.color = 'ORANGE';	
+     
+start c:\sqlt\xplan
+
+-->  튜닝2>>
+ leading ( c o d p)  
+exec clean_index; 
+ create index c_city_i on customers( city);
+ create index o_cno_pay on  orders( custno, paytype) ;
+ create index d_ordno_qty on orderdetails( orderno,qty) ;
+ create index p_pno_color on products ( prodno, color) ;
+ 
+SELECT /*+ USE_NL (c o d p) leading ( c o d p) index (p p_pno_color) */ 
+c.custno,SUBSTR(c.cname,1,5) , o.orderdate, d.qty,SUBSTR( p.pname,1,5)					
+FROM customers c, orders o, orderdetails d, products p							
+WHERE c.custno = o.custno							
+AND o.orderno = d.orderno							
+AND d.prodno = p.prodno							
+AND c.city = '서울'							
+AND o.paytype = '계좌이체'							
+AND d.qty <= 5							
+AND p.color = 'ORANGE';
+	
+start c:\sqlt\xplan
+ 
+

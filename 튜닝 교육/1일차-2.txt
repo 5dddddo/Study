@@ -1,0 +1,35 @@
+   
+  
+SQL> conn scott/tiger
+SQL>  select count(*) from emp ; 
+SQL> create table t1 as select * from emp ; 
+SQL> insert into t1 select *  from t1; 
+        /
+SQL> commit;
+SQL> select count(*) from t1; 
+  
+ SQL> col table_name format a20 
+ SQL> select table_name, num_rows, blocks
+         from  user_tables
+         where table_name='T1' ; 
+
+ SQL> analyze table t1 compute statistics; 
+ SQL> select table_name, num_rows, blocks
+         from  user_tables
+         where table_name='T1' ; 
+
+SQL> insert into t1 select * from t1; 
+        /
+ SQL> commit; 
+ SQL> select count(*) from t1; 
+
+-->마지막통계정보생성요청시간 표시하기 
+ select table_name, num_rows, blocks, 
+            to_char(last_analyzed,'yyyymmdd:hh24:mi:ss') 
+         from  user_tables
+         where table_name='T1' ; 
+
+SQL> analyze table t1 compute statistics; 
+ SQL> select table_name, num_rows, blocks
+         from  user_tables
+         where table_name='T1' ; 

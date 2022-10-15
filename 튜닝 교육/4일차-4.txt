@@ -1,0 +1,55 @@
+
+1.  select to_char(hiredate,'mm') 입사월, count(*) 인원
+    from emp 
+    group by  to_char(hiredate,'mm')  ; 
+
+    --> 01월부터 12월까지 모든 월에대해 입사인원 표시.
+    A. select  LPAD( level, 2,'0') mon
+         from  dual
+         connect by level < 13 ;
+   B. select to_char(hiredate,'mm') 입사월, count(*) 인원
+      from emp 
+       group by  to_char(hiredate,'mm') 
+
+  SELECT A.mon, NVL(B.인원,0)
+  FROM  ( select  LPAD( level, 2,'0') mon
+            from  dual
+                connect by level < 13  )  A LEFT outer join
+               (select to_char(hiredate,'mm') 입사월, count(*) 인원
+                 from emp 
+                 group by  to_char(hiredate,'mm')  )  B
+         ON  (A.mon = B.입사월 ) 
+   ORDER BY A.mon ; 
+
+
+2.    select deptno,  to_char(hiredate,'mm') 입사월, count(*) 인원
+      from emp 
+    group by deptno,  to_char(hiredate,'mm') ;
+  --->  dept테이 블모든 부서에대해 01-12월 입사인원이 몇명인지표시
+        (  48ROW) 
+A .  select  deptno, mon 
+      from dept d  CROSS JOIN  (select  LPAD( level, 2,'0') mon
+                                               from  dual
+                                                connect by level < 13)  t ; 
+B. select deptno,  to_char(hiredate,'mm') 입사월, count(*) 인원
+      from emp 
+    group by deptno,  to_char(hiredate,'mm') ;
+===>
+ SELECT A.deptno, A.mon, NVL(B.인원,0)
+ FROM ( select  deptno, mon 
+      from dept d  CROSS JOIN  (select  LPAD( level, 2,'0') mon
+                                               from  dual
+                                                connect by level < 13)  t)  A 
+          LEFT OUTER JOIN  
+       ( select deptno,  to_char(hiredate,'mm') 입사월, count(*) 인원
+      from emp 
+    group by deptno,  to_char(hiredate,'mm'))   B
+            ON (A.DEPTNO= B.DEPTNO and A.MON=B.입사월) 
+  ORDER BY A.DEPTNO, A.MON ; 
+
+==>
+  SELECT A.deptno, A.mon, NVL(B.인원,0)
+ FROM ( A)  A LEFT OUTER JOIN  ( B)  B
+            ON (A.DEPTNO= B.DEPTNO and A.MON=B.입사월) 
+  ORDER BY A.DEPTNO, A.MON ; 
+   

@@ -1,0 +1,29 @@
+1.
+conn tuning/tuning
+
+create table dept as select * from scott.dept;
+create table emp as select * from scott.emp;
+
+alter table dept add constraint dept_pk primary key(deptno);
+create index emp_deptno_idx on emp (deptno);
+
+exec dbms_stats.gather_table_stats(user, 'emp');
+exec dbms_stats.gather_table_stats(user, 'dept');
+2. 
+set autot on exp
+
+select * from emp
+where  deptno in (select deptno from dept);
+
+select * from emp
+where  deptno in (select /*+ no_unnest */ deptno from dept);
+3. unnest로 수행된경우 (조인순서조정가능/방법선택가능) 
+ select  /*+leading (dept)  */ * from emp
+where  deptno in (select deptno from dept);
+
+ select  /*+leading (dept) USE_HASH( emp dept)   */ * from emp
+where  deptno in (select deptno from dept);
+
+4. -- 순서조정 안됨. 
+ select /*+leading (dept)  */ * from emp
+where  deptno in (select /*+ no_unnest */ deptno from dept);

@@ -1,0 +1,49 @@
+1) select  * from emp
+    where   deptno between 1 AND 100 AND   sal = 2500 ; 
+2) where  deptno in( 서브쿼리사용 ) AND sal =2500 ;  
+     
+    방법1>  where deptno in ( select deptno from dept
+                                          where deptno between 1 and 100) 
+                    AND sal =2500 ;
+    방법2>      where  deptno in ( select level from dual
+                                               connect by level <101 ) 
+                      AND sal =2500 ;
+
+  cmd 창  DB db접속
+ sqlplus tuning/tuning
+  SQL>   select level
+             from dual
+            connect by level  < 11; 
+ SQL>  select ascii('A')  from dual ;  --특정문자아스키코드값 
+ SQL>  select chr(68) from dual ;   -- 해당코드값 문자표시
+ 
+ SQL> select  CHR( level+64) ||'01'
+         from dual 
+         connect by level  < 11; 
+
+SQL> exec clean_index; 
+        create index idx1 on 판매집계 (  판매월, 판매구분) ; 
+        start c:\sqlt\idx  
+           판매집계
+        alter session set statistics_level=all; 
+  튜닝전>>       
+   select count(*)
+  from  판매집계
+  where 판매구분='A' and 판매월 between '202001' and '202012';
+
+  start c:\sqlt\xplan 
+     ---> buffers값 줄이기 (인덱스 스캔량줄여보기 ) 
+
+ -->결합인덱스 선행조건을  IN으로 변경했을때 개선효과확인
+ 튜닝후>> 
+     select count(*)
+  from  판매집계
+  where 판매구분='A' and 판매월   in
+                            ( select '2020' || LPAD( level,2,'0')
+                              from dual
+                              connect by level < 13 ) ; 
+  start c:\sqlt\xplan
+
+    select '2020' || LPAD( level,2,'0')
+    from dual
+   connect by level < 13 ; 

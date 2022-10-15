@@ -1,0 +1,28 @@
+SQL> conn tuning/tuning
+1. 
+ alter session set statistics_level=all;
+   
+exec clean_index;
+create index IX_ORDERS_N1 on orders (orderdate) ;
+SELECT  /*+ index(A IX_ORDERS_N1)*/ ORDERNO, ORDERDATE, PAYTYPE
+     , CUSTNO, TOTAL
+  FROM ORDERS A
+ WHERE ORDERDATE >= TO_DATE('20190805', 'YYYYMMDD')
+   AND ORDERDATE < TO_DATE('20200805', 'YYYYMMDD')
+   AND STATUS = '배송중';
+@c:\sqlt\xplan
+
+2.  
+exec clean_index; 
+ create index IX_ORDERS_N1 on orders (orderdate, status) ;
+
+SELECT  /*+ index(A IX_ORDERS_N1)*/ ORDERNO, ORDERDATE, PAYTYPE
+     , CUSTNO, TOTAL
+  FROM ORDERS A
+ WHERE ORDERDATE >= TO_DATE('20190805', 'YYYYMMDD')
+   AND ORDERDATE < TO_DATE('20200805', 'YYYYMMDD')
+   AND STATUS = '배송중';
+
+@c:\sqlt\xplan
+
+ 

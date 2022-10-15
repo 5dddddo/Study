@@ -1,0 +1,53 @@
+SQL> select rowid, ename from emp  ; 
+ -->  rowid 는 테이블  ROW마다 유일한값
+          (실제  DISK에 저장된 위치(주소) 값  ) 
+     select * from emp where rowid ='AAAE5vAAEAAAcEtAAL';
+
+ 
+  rowid: 실제ROW가 저장된 위치값을 나타냄 
+     18개중
+ 6개(오브젝트번호) +3개(파일번호) + 6개(블럭번호) 
+     +3개(블럭내row순서) 
+ 
+  select object_id from user_objects
+  where object_name='EMP' ; 
+
+   dbms_rowid패키지 이용하면 rowid에서 필요한 정보 추출가능
+  
+   select dbms_rowid.rowid_object(rowid), ename from emp  ;
+  select dbms_rowid.rowid_block_number(rowid),ename
+  from emp ; 
+ 
+ *******************
+create table test as
+select  1 id , 'tom' name from dual  union all
+select  1 id , 'tom' name from dual union all
+select  2 id , 'jane' name from dual union all
+select  1 id , 'tom' name from dual union all
+select  2 id , 'jane' name from dual union all
+select  3 id , 'smith' name from dual union all
+select  2 id , 'jane' name from dual union all
+select  3 id , 'smith' name from dual union all
+select  4 id , 'allen' name from dual ;
+
+ select * from test; 
+  --> id,name 중복자료 1개씩만 남기고 모두 삭제하기. 
+   DELETE ~~;
+   select * from test;
+  rollback ; 
+
+   select id, name,min(rowid)
+   from   test
+   group by id, name  ;
+
+   DELETE test 
+   WHERE rowid  NOT in ( select min(rowid) 
+                                     from test
+                                    group by id,name) ; 
+
+
+
+ 
+
+   
+   

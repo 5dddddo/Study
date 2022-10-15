@@ -1,0 +1,81 @@
+ sqlplus scott/tiger
+SQL>  set autot on exp
+SQL> create index ename_idx on emp(ename) ; 
+
+SQL> select ename, sal from emp 
+         where ename ='SCOTT' ; 
+SQL> select ename,sal
+        from emp
+         where ename > 'DD' 
+        order by ename; 
+
+SQL> select ename,sal
+        from emp
+         where ename > 'DD' 
+        order by ename desc; 
+
+ SQL>  ename 첫번째글자가 'B'인 사원만 조회. 
+   * 1)  select ename,sal
+         from emp
+         where SUBSTR(ename,1,1) ='B';
+
+   2) select ename,sal
+         from emp
+         where  ename like 'B%' ;
+
+  *3) select ename, sal
+      from emp 
+      where ename like '%A%' ; 
+
+ create index job_mgr_i on emp( job, mgr) ; 
+ 1) select ename, job, mgr from emp 
+     where job='CLERK' ; 
+ 2)  select ename, job, mgr from emp 
+      where mgr  =7788; 
+ 3) select ename, job, mgr from emp
+     where job > 'CLERK' and mgr  > 7900  ; 
+
+   select max(sal) from emp ; 
+   select max(ename) from emp ; 
+ 
+  SQL> set autot off
+  SQL> start c:\sqlt\idx
+                 -->emp 
+
+  
+ 문제1> 
+  set autot on exp
+
+  select ename,job, mgr  
+  from emp 
+  where job||mgr  in  ('CLERK7788','MANAGER7902' , 
+                                'DA7566' ,'TA7839')   ;
+  --> 문장변경해서 인덱스 사용가능하도록
+개선문장1> 
+ select ename,job, mgr  
+  from emp 
+  where (job ='CLERK' AND mgr=7788 )  OR 
+            (job='MANAGER' AND mgr=7902)  OR
+           job='DA' AND mgr  = 7566  OR
+           job ='TA' AND mgr =7839  ; 
+ 개선문장2> 
+  select ename,job, mgr  
+  from emp 
+  where ( job, mgr) in ( ('CLERK',7788) , ('MANAGER',7902) ,
+                                  ('DA',7566) , ('TA', 7839) )  ;
+
+
+ 문제2> 
+  create index hire_idx on emp( hiredate) ;
+ 
+   select  ename,sal, hiredate from emp 
+   where  TO_CHAR(hiredate,'yyyy') = '1981' ; 
+    --> 인덱스 사용가능한 형태로 문장변경. 
+
+개선문장>>
+   select  ename,sal, hiredate from emp 
+   where  hiredate  >= TO_DATE('1981-01-01','yyyy-mm-dd') 
+       AND hiredate <  TO_DATE('1982-01-01','yyyy-mm-dd') ; 
+
+
+

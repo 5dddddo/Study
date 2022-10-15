@@ -1,0 +1,22 @@
+   cmd창
+sqlplus tuning/tuning
+1>  alter session set statistics_level=all ; 
+       exec clean_index; 
+       create index IX_ORDERS_N1 on orders(orderdate) ; 
+2> start c:\sqlt\idx
+            --->  orders입력
+
+문제1> 
+  select MIN(orderdate)  , MAX(orderdate) from orders; 
+
+  start c:\sqlt\xplan
+
+
+문제2>  
+   select MAX(orderdate)
+   from orders
+   where paytype='신용카드' ; 
+ 
+  start c:\sqlt\xplan
+
+ 

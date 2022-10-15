@@ -1,0 +1,37 @@
+1.
+  conn scott/tiger
+ SQL> set autot on exp
+ SQL> select /*+ USE_NL( e d) leading ( e d)  */ e.ename, e.sal,d.dname
+           from emp e, dept d
+          where e.deptno = d.deptno ; 
+
+SQL> select /*+ USE_NL( e d) leading ( e d)*/   e.ename, e.sal, d.dname
+        from emp e JOIN dept d ON ( e.deptno=d.deptno) ; 
+
+1>  select /*+ USE_NL( e d) leading ( e d)  */ e.ename, e.sal,d.dname
+           from emp e, dept d
+          where e.deptno(+)  = d.deptno ; 
+
+2> select /*+ USE_NL( e d) leading ( e d)*/   e.ename, e.sal, d.dname
+        from emp e  RIGHT outer JOIN dept d 
+     ON ( e.deptno=d.deptno) ; 
+ 
+3>select /*+ USE_NL( e d) leading ( e d)  */ e.ename, e.sal,d.dname
+           from emp e, dept d
+          where e.deptno(+)  = d.deptno  AND e.sal  > 2900 ; 
+ --->  
+select /*+ USE_HASH( e d) leading ( e d)  */ e.ename, e.sal,d.dname
+           from emp e, dept d
+          where e.deptno(+)  = d.deptno  AND e.sal (+) > 2900 ;
+4>select /*+ USE_NL( e d) leading ( e d)*/   e.ename, e.sal, d.dname
+        from emp e  RIGHT outer JOIN dept d 
+     ON ( e.deptno=d.deptno)
+   WHERE e.sal  > 2900  ;
+  -->  
+   select /*+ USE_HASH( e d) leading ( e d)*/   e.ename, e.sal, d.dname
+        from emp e  RIGHT outer JOIN dept d 
+     ON ( e.deptno=d.deptno  AND  e.sal  > 2900) ;
+5> 
+      select /*+ USE_HASH( e d) leading ( e d)*/   e.ename, e.sal, d.dname
+        from  dept d  LEFT outer JOIN  emp e     
+        ON ( e.deptno=d.deptno  AND  e.sal  > 2900) ;   

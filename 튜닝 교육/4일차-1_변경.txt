@@ -1,0 +1,99 @@
+--1.
+-- driving 테이블 - 먼저 액세스하는 테이블 (또는 outer 테이블)
+-- inner 테이블 - 뒤에 액세스하는 테이블 (또는 driven 테이블)
+문제1>  아래 순서대로 NL조인시 어떤 인덱스를 생성해야 효과적인지
+        적절한 인덱스 생성을 검토 (departments 먼저일기)
+conn scott/tiger
+ set autot off
+ alter session set statistics_level=all; 
+
+ exec clean_index;    
+ select /*+ use_nl(d e) ordered */
+          d.department_name, e.first_name, e.salary, d.location_id
+ from departments d, employees e
+ where d.department_id = e.department_id
+ and e.salary > 3000
+ and d.location_id = 1500;
+start c:\sqlt\xplan
+  
+ --> departments 테이블 먼저 처리시 가장 중요한 인덱스는???
+       employees테이블  department_id  인덱스가 중요함. 
+ create index emp_idx1 on employees (department_id)   ; 
+
+select /*+ use_nl(d e) ordered */
+          d.department_name, e.first_name, e.salary, d.location_id
+ from departments d, employees e
+ where d.department_id = e.department_id
+ and e.salary > 3000
+ and d.location_id = 1500;
+start c:\sqlt\xplan
+
+ exec clean_index; 
+ create index emp_idx1 on employees (department_id, salary) ; 
+ create index dept_idx1 on departments( location_id) ; 
+select /*+ use_nl(d e) ordered */
+          d.department_name, e.first_name, e.salary, d.location_id
+ from departments d, employees e
+ where d.department_id = e.department_id
+ and e.salary > 3000
+ and d.location_id = 1500;
+start c:\sqlt\xplan
+
+ -- > 두테이블에 인덱스 1개씩만 생성하기
+*************************************************************************************
+문제2>  조인 순서가 바뀌면 다음처럼 변경되었을때 어떤 인덱스 구성이
+      효과적인가?
+exec clean_index;
+
+-- 추가한 인덱스를 사용하지 않는다면, 힌트를 추가하자.
+select /*+ use_nl(d e) leading(e d) index(d dept_idx1) */ 
+       d.department_name, e.first_name, e.salary, d.location_id
+from departments d, employees e
+where d.department_id = e.department_id
+and e.salary > 3000
+and d.location_id = 1500;
+
+
+  --> employees 테이블먼저driving처리하면 제일중요한 인덱스는
+         departments 테이블  department_id 컬럼인덱스(pk인덱스존재함)
+ exec clean_index;
+ create index dept_idx1 ON departments (department_id, location_id) ;
+ create index emp_idx1 ON employees( salary) ; 
+
+ select /*+ use_nl(d e) leading(e d) index(d dept_idx1) */ 
+       d.department_name, e.first_name, e.salary, d.location_id
+from departments d, employees e
+where d.department_id = e.department_id
+and e.salary > 3000
+and d.location_id = 1500;
+ start c:\sqlt\xplan 
+
+문제3> 어떤 테이블을 먼저 읽는게 좋을지 NL조인순서와
+       효율적인 인덱스를 생성해 보는  연습
+
+exec clean_index;
+
+select /*+ use_nl(d e) */ 
+       d.department_name, e.first_name, e.salary, d.location_id
+from departments d, employees e
+where d.department_id = e.department_id
+and e.salary > 12000
+and d.location_id = 1700;
+
+select count(*) from departments where  location_id=1700 ;
+select count(*) from employees where salary > 12000 ;
+--->건수 작은  employees테이블 먼저 읽어서 처리 
+exec clean_index; 
+ create index dept_idx1 ON departments (department_id, location_id) ;
+ create index emp_idx1 ON employees( salary) ; 
+
+select /*+ use_nl(d e) LEADING ( e d) index(d dept_idx1) */ 
+       d.department_name, e.first_name, e.salary, d.location_id
+from departments d, employees e
+where d.department_id = e.department_id
+and e.salary > 12000
+and d.location_id = 1700;
+
+start c:\sqlt\xplan 
+
+

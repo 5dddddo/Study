@@ -1,0 +1,50 @@
+
+   select * fom t1; 
+  t1테이블 자료 저장 형태.. 
+   insert문 사용해서 자료입력하면 DB내부에선 row형태로 
+   만들어서 저장함. 
+
+   sqlplus scott/tiger
+ SQL>  create table e7  as select * from emp ; 
+ SQL>  begin 
+            FOR  k in 1..7 LOOP
+                insert into e7 select * from e7; 
+          END LOOP;
+      end; 
+/
+SQL> select count(*) from e7; 
+SQL> analyze table e7 compute statistics; 
+SQL> select num_rows, blocks,chain_cnt
+         from user_tables
+        where table_name='E7' ; 
+---E7테이블 컬럼 추가후  update 수행해보기 
+SQL> alter table e7 ADD ( addr  char(20) ) ; 
+SQL> update e7 SET addr ='seoul' ; 
+        commit; 
+
+SQL> analyze table e7 compute statistics; 
+SQL> select num_rows, blocks,chain_cnt
+         from user_tables
+        where table_name='E7' ;
+-- DELETE 해서 7788번만 남기고 모두 삭제하기
+SQL> delete e7 WHERE empno <> 7788 ; 
+SQL> commit;
+
+SQL> analyze table e7 compute statistics; 
+SQL> select num_rows, blocks,chain_cnt
+         from user_tables
+        where table_name='E7' ; 
+
+--ROW migartion / HWM 앞에 빈공간 제거
+SQL>alter table e7 move;
+SQL> analyze table e7 compute statistics; 
+SQL> select num_rows, blocks,chain_cnt
+         from user_tables
+        where table_name='E7' ; 
+ 
+
+
+ 
+
+   
+   
